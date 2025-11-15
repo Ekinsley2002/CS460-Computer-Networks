@@ -6,24 +6,26 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 // chat node structure
-typedef struct chat_node_struct
+typedef struct ChatNode
 {
+	// variables for client information
 	unsigned int ip;
-	unsigned short int port;
+	uint16_t port;
 	char name[16];
 } ChatNode;
 
 // structure for building linked list
-typedef struct chat_list_element_struct
+typedef struct ChatListElement
 {
 	ChatNode chat_node;
-	struct chat_list_element_struct* next;
+	struct ChatListElement* next;
 } ChatListElement;
 
 // chat node list structure
-typedef struct chat_node_list_struct
+typedef struct ChatNodes
 {
 	ChatListElement* head;
 	ChatListElement* tail;
