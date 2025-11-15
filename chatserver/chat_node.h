@@ -19,14 +19,14 @@ typedef struct chat_node_struct
 typedef struct chat_list_element_struct
 {
 	ChatNode chat_node;
-	struct chat_node_list_element_struct* next;
+	struct chat_list_element_struct* next;
 } ChatListElement;
 
 // chat node list structure
 typedef struct chat_node_list_struct
 {
-	ChatNodeListElement* head;
-	ChatNodeListElement* tail;
+	ChatListElement* head;
+	ChatListElement* tail;
 } ChatNodes;
 
 // chat node function prototype
@@ -37,7 +37,7 @@ ChatNodes* createChatList(void);
 
 // adding and removing chat nodes
 void addNode(ChatNodes* nodeList, ChatNode* newNode);
-int removeNode(ChatNodes* nodeList, ChatNode* newNode);
+int removeNode(ChatNodes* nodeList, ChatNode* targetNode);
 
 // compare nodes
 bool compareNodes(ChatNode* first, ChatNode* second);
