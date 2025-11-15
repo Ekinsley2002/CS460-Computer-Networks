@@ -18,7 +18,7 @@
 ChatNode* newNode(unsigned int ip, unsigned short int port, char* name)
 {
 	// create the new node
-	ChatNode* newNode;
+	ChatNode* newNode = (ChatNode*)malloc(sizeof(ChatNode));
 
 	// store the ip inside the node
 	newNode->ip = ip;
