@@ -99,22 +99,66 @@ void addNode(ChatNodes* nodeList, ChatNode* newNode)
 /* traverse node list to find target node,
 	compare nodes, remove link from node,
 	link previous node to node after target,
-	free node mememory, return 0 if sccuessful */
+	free node mememory, return 1 if sccuessful */
 int removeNode(ChatNodes* nodeList, ChatNode* targetNode)
 {
-	// set a traversal node
+	// set a current traversal node
 	ChatListElement* current = nodeList->head;
 
-	while(current != NULL)
+	// keep track of previously visited node
+	ChatListElement* previous = NULL;
+
+	// if the head is the node to be found
+	if (compareNodes(&current->chat_node, targetNode))
 	{
-		if (compareNodes(&current->chat_node, targetNode) == 1)
+		// update head
+		nodeList->head = current->next;
+
+		// if node to removed is the only node
+		if (nodeList->tail == current)
 		{
-			
+			// list is now empty so update tail
+			nodeList->tail = NULL;
 		}
 
+		// free the node
+		free(current);
+
+		// return success
+		return 1;
+	}
+
+	// traverse list of nodes
+	while(current != NULL)
+	{
+		// if node comparison returns true
+		if (compareNodes(&current->chat_node, targetNode))
+		{
+			// unlink node
+			previous->next = current->next;
+
+			// if tail is being removed
+			if (nodeList->tail == current)
+			{
+				// update tail to be the node before tail
+				nodeList->tail = previous;
+			}
+
+			// free the node
+			free(current);
+
+			// return success
+			return 1;
+		}
+
+		// traverse further by setting current node as visited
+		previous = current;
+
+		// set current node as next node
 		current = current->next;
 	}
 	
+	// return failure if node not found
 	return -1;
 }
 
