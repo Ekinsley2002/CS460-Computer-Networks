@@ -16,11 +16,11 @@ typedef struct chat_node_struct
 } ChatNode;
 
 // structure for building linked list
-typedef struct chat_node_list_element_struct
+typedef struct chat_list_element_struct
 {
 	ChatNode chat_node;
 	struct chat_node_list_element_struct* next;
-} ChatNodeListElement;
+} ChatListElement;
 
 // chat node list structure
 typedef struct chat_node_list_struct
