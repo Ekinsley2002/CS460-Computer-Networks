@@ -1,5 +1,5 @@
-#ifndef SERVER_CLIENT_HANDLER_H
-#define SERVER_CLIENT_HANDLER_H
+#ifndef CLIENT_HANDLER_H
+#define CLIENT_HANDLER_H
 
 // standard libraries 
 #include <stdbool.h>
@@ -9,6 +9,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <string.h>
+#include <arpa/inet.h>
 #include "chat_node.h"
 #include "message.h"
 
