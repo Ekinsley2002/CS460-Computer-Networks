@@ -4,6 +4,9 @@
 // chat node library
 #include "chat_node.h"
 
+// sending message library
+#include <unistd.h>
+
 // global constant commands
 #define JOIN 1
 #define LEAVE 2
