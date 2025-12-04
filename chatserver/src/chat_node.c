@@ -72,7 +72,7 @@ void addNode(ChatNodes* nodeList, ChatNode* newNode)
 	}
 
 	// add the node info into the list element
-	element->chat_node = *newNode;
+	element->chatNode = *newNode;
 
 	// set next node after to be null
 	element->next = NULL;
@@ -109,7 +109,7 @@ int removeNode(ChatNodes* nodeList, ChatNode* targetNode)
 	ChatListElement* previous = NULL;
 
 	// if the head is the node to be found
-	if (compareNodes(&current->chat_node, targetNode))
+	if (compareNodes(&current->chatNode, targetNode))
 	{
 		// update head
 		nodeList->head = current->next;
@@ -132,7 +132,7 @@ int removeNode(ChatNodes* nodeList, ChatNode* targetNode)
 	while(current != NULL)
 	{
 		// if node comparison returns true
-		if (compareNodes(&current->chat_node, targetNode))
+		if (compareNodes(&current->chatNode, targetNode))
 		{
 			// unlink node
 			previous->next = current->next;

@@ -16,7 +16,7 @@ void* talk_to_client(void* arg)
 	Message clientMessage;
 
 	// unlock the mutex for client socket
-	pthread_mutex_unlock(&mutex_clientSock);
+	pthread_mutex_unlock(&mutex_client_socket);
 
 	// receive the message from client
 	receiveMessage(clientSock, &clientMessage);
@@ -100,12 +100,10 @@ void join(Message* message)
 	int errVar;
 
 	// lock the mutex for node list
-	pthread_mutex_lock(&mutex_nodeList);
-	
-	// CAUTION: WEIRD SYNTAX???
+	pthread_mutex_lock(&mutex_chat_node_list);
 
 	// let clients know that there is a new client joining
-	message->type = JOINING;
+	message->type = JOIN;
 
 	// get ready for traversal of the list
 	ChatListElement* current = chatNodes->head;
@@ -129,27 +127,27 @@ void join(Message* message)
 		sprintf(port, "%u", current->chatNode.port);
 
 		// get address info from the node and check for errors
-		if ((errVar = getaddrinfo(ip_ntop(current->chatNode.ip), portString, &hints, &server_info)) != 0)
+		if ((errVar = getaddrinfo(ip_ntop(current->chatNode.ip), port, &hints, &server_info)) != 0)
 		{
 			// if error ecountered, throw debug statement
-			debug("[CLIENT_HANDLER] Encountered error %s", gai_strerror(error));
+			debug("[CLIENT_HANDLER] Encountered error %s", gai_strerror(errVar));
 		}
 
 		// create socket for connection
-		chatNodeSocket = socket(server_info->ai_family, server_info->ai_socktype, server_info->ai_protocol);
+		socketChatNode = socket(server_info->ai_family, server_info->ai_socktype, server_info->ai_protocol);
 
 		// establish the connection to the server
-		if (connect(chatNodeSocket, server_info->ai_addr, server_info->ai_addrlen) != 0)
+		if (connect(socketChatNode, server_info->ai_addr, server_info->ai_addrlen) != 0)
 		{
 			// throw an error
 			perror("[CLIENT_HANDLER] Error connecting to the server.");
 		}
 
 		// send the message from server to client
-		sendMessage(chatNodeSocket, message);
+		sendMessage(socketChatNode, message);
 
 		// close the connection
-		close(chatNodeSocket);
+		close(socketChatNode);
 
 		// traverse to next chat node in list
 		current = current->next;
@@ -159,7 +157,7 @@ void join(Message* message)
 	debug("%s joined the chat.", message->chatNode.name);
 
 	// unlock the mutex
-	pthread_mutex_unlock(&mutex_nodeList);
+	pthread_mutex_unlock(&mutex_chat_node_list);
 }
 
 // leave function
@@ -179,7 +177,7 @@ void leave(Message* message)
 	int errVar;
 
 	// lock the mutex for node list
-	pthread_mutex_lock(&mutex_nodeList);
+	pthread_mutex_lock(&mutex_chat_node_list);
 
 	// if the node to be found doesn't exist
 	if (removeNode(chatNodes, &message->chatNode) == -1)
@@ -192,7 +190,7 @@ void leave(Message* message)
 	else
 	{
 		// notify other clients that a client has left
-		message->type = LEFT;
+		message->type = LEAVE;
 
 		// get ready for traversal of the list
 		ChatListElement* current = chatNodes->head;
@@ -216,27 +214,27 @@ void leave(Message* message)
 			sprintf(port, "%u", current->chatNode.port);
 
 			// get address info from the node and check for errors
-			if ((errVar = getaddrinfo(ip_ntop(current->chatNode.ip), portString, &hints, &server_info)) != 0)
+			if ((errVar = getaddrinfo(ip_ntop(current->chatNode.ip), port, &hints, &server_info)) != 0)
 			{
 				// if error ecountered, throw debug statement
-				debug("[CLIENT_HANDLER] Encountered error %s", gai_strerror(error));
+				debug("[CLIENT_HANDLER] Encountered error %s", gai_strerror(errVar));
 			}
 
 			// create socket for connection
-			chatNodeSocket = socket(server_info->ai_family, server_info->ai_socktype, server_info->ai_protocol);
+			socketChatNode = socket(server_info->ai_family, server_info->ai_socktype, server_info->ai_protocol);
 
 			// establish the connection to the server
-			if (connect(chatNodeSocket, server_info->ai_addr, server_info->ai_addrlen) != 0)
+			if (connect(socketChatNode, server_info->ai_addr, server_info->ai_addrlen) != 0)
 			{
 				// throw an error
 				perror("[CLIENT_HANDLER] Error connecting to the server.");
 			}
 
 			// send the message from server to client
-			sendMessage(chatNodeSocket, message);
+			sendMessage(socketChatNode, message);
 
 			// close the connection
-			close(chatNodeSocket);
+			close(socketChatNode);
 
 			// traverse to next chat node in list
 			current = current->next;
@@ -246,7 +244,7 @@ void leave(Message* message)
 	debug("%s left the chat.", message->chatNode.name);
 
 	// unlock the mutex for node list
-	pthread_mutex_unlock(&mutex_nodeList);
+	pthread_mutex_unlock(&mutex_chat_node_list);
 }
 
 // note function
@@ -266,7 +264,7 @@ void note(Message* message)
 	int errVar;
 
 	// lock the mutex for node list
-	pthread_mutex_lock(&mutex_nodeList);
+	pthread_mutex_lock(&mutex_chat_node_list);
 
 	// get ready for traversal of the list
 	ChatListElement* current = chatNodes->head;
@@ -300,27 +298,27 @@ void note(Message* message)
 		sprintf(port, "%u", current->chatNode.port);
 
 		// get address info from the node and check for errors
-		if ((errVar = getaddrinfo(ip_ntop(current->chatNode.ip), portString, &hints, &server_info)) != 0)
+		if ((errVar = getaddrinfo(ip_ntop(current->chatNode.ip), port, &hints, &server_info)) != 0)
 		{
 			// if error ecountered, throw debug statement
-			debug("[CLIENT_HANDLER] Encountered error %s", gai_strerror(error));
+			debug("[CLIENT_HANDLER] Encountered error %s", gai_strerror(errVar));
 		}
 
 		// create socket for connection
-		chatNodeSocket = socket(server_info->ai_family, server_info->ai_socktype, server_info->ai_protocol);
+		socketChatNode = socket(server_info->ai_family, server_info->ai_socktype, server_info->ai_protocol);
 
 		// establish the connection to the server
-		if (connect(chatNodeSocket, server_info->ai_addr, server_info->ai_addrlen) != 0)
+		if (connect(socketChatNode, server_info->ai_addr, server_info->ai_addrlen) != 0)
 		{
 			// throw an error
 			perror("[CLIENT_HANDLER] Error connecting to the server.");
 		}
 
 		// send the message from server to client
-		sendMessage(chatNodeSocket, message);
+		sendMessage(socketChatNode, message);
 
 		// close the connection
-		close(chatNodeSocket);
+		close(socketChatNode);
 
 		// traverse to next chat node in list
 		current = current->next;
@@ -330,7 +328,7 @@ void note(Message* message)
 	debug("%s sent a note.", message->chatNode.name);
 
 	// unlock the mutex for node list
-	pthread_mutex_unlock(&mutex_nodeList);
+	pthread_mutex_unlock(&mutex_chat_node_list);
 }
 
 // shutdownall function
@@ -350,7 +348,7 @@ void shutdownAll(Message* message)
 	int errVar;
 
 	// lock the mutex for node list
-	pthread_mutex_lock(&mutex_nodeList);
+	pthread_mutex_lock(&mutex_chat_node_list);
 
 	// get ready for traversal of the list
 	ChatListElement* current = chatNodes->head;
@@ -374,32 +372,32 @@ void shutdownAll(Message* message)
 		sprintf(port, "%u", current->chatNode.port);
 
 		// get address info from the node and check for errors
-		if ((errVar = getaddrinfo(ip_ntop(current->chatNode.ip), portString, &hints, &server_info)) != 0)
+		if ((errVar = getaddrinfo(ip_ntop(current->chatNode.ip), port, &hints, &server_info)) != 0)
 		{
 			// if error ecountered, throw debug statement
-			debug("[CLIENT_HANDLER] Encountered error %s", gai_strerror(error));
+			debug("[CLIENT_HANDLER] Encountered error %s", gai_strerror(errVar));
 		}
 
 		// create socket for connection
-		chatNodeSocket = socket(server_info->ai_family, server_info->ai_socktype, server_info->ai_protocol);
+		socketChatNode = socket(server_info->ai_family, server_info->ai_socktype, server_info->ai_protocol);
 
 		// establish the connection to the server
-		if (connect(chatNodeSocket, server_info->ai_addr, server_info->ai_addrlen) != 0)
+		if (connect(socketChatNode, server_info->ai_addr, server_info->ai_addrlen) != 0)
 		{
 			// throw an error
 			perror("[CLIENT_HANDLER] Error connecting to the server.");
 		}
 
 		// send the message from server to each client
-		sendMessage(chatNodeSocket, message);
+		sendMessage(socketChatNode, message);
 
 		// close the connection
-		close(chatNodeSocket);
+		close(socketChatNode);
 
 		// traverse to next chat node in list
 		current = current->next;
 	}
 
 	// unlock the mutex for node list
-	pthread_mutex_unlock(&mutex_nodeList);
+	pthread_mutex_unlock(&mutex_chat_node_list);
 }

@@ -20,7 +20,7 @@ typedef struct ChatNode
 // structure for building linked list
 typedef struct ChatListElement
 {
-	ChatNode chat_node;
+	ChatNode chatNode;
 	struct ChatListElement* next;
 } ChatListElement;
 

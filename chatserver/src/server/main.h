@@ -3,7 +3,6 @@
 
 // chat node file
 #include "chat_node.h"
-#include "chat_node.c"
 
 // standard libraries
 #include <stdio.h>
@@ -27,11 +26,11 @@
 // sever loop condition
 #define TRUE !false
 
-// shared mutexes
+// global variables
 extern pthread_mutex_t mutex_client_socket;
 extern pthread_mutex_t mutex_chat_node_list;
 
-// shared chat nodes list
-extern ChatNode* chatNodes;
+// declare chat node linked list
+extern ChatNodes* chatNodes;
 
 #endif /* main.h */
