@@ -1,62 +1,90 @@
+// debug
+#define DBG
+#include "dbg.h"
+
+// header
 #include "message.h"
 
-// create new message
-Message* message_new(int type, ChatNode* chat_node_ptr, char* note)
+// function for message object
+/* allocate memory for message,
+	copy node information into message chat node,
+	if note is provided, copy into note,
+	return new message pointer */
+Message* messageNew(int type, ChatNode* chat_node_ptr, char* note)
 {
-    Message *message = (Message*)malloc(sizeof(Message));
+	// dynamically allocate storage for message
+	Message* message = (Message*)malloc(sizeof(Message));
 
-    if( type < 1 || type > 5 )
-    {
-        debug("[MESSAGE] Message type not recognized or doesn't exist. Exiting...");
+	// if type doesn't exist
+	if (type < 1 || type > 5)
+	{
+		// throw a debug message
+		debug("[MESSAGE] Message type not recognized or doesn't exist. Exiting...");
 
-        exit(EXIT_FAILURE);
-    }
+		// safely exit
+		exit(EXIT_FAILURE);
+	}
 
-    message->type = type;
+	// set message type
+	message->type = type;
 
-    if( chat_node_ptr == NULL )
-    {
-        debug("[MESSAGE] Chat node not recognized or doesn't exist. Exiting...");
+	// if node doesn't exist
+	if (chat_node_ptr == NULL)
+	{
+		// throw a debug message
+		debug("[MESSAGE] Chat node not recognized or doesn't exist. Exiting...");
 
-        exit(EXIT_FAILURE);
-    }
+		// safely exit
+		exit(EXIT_FAILURE);
+	}
 
-    message->chatNode = *chat_node_ptr;
+	// set chat node
+	message->chatNode = chat_node_ptr;
+	
+	// if note doesn't exist
+	if (note == NULL)
+	{
+		// throw a debug message
+		debug("[MESSAGE] Message note not recognized or doesn't exist. Exiting...");
 
-    if( note == NULL )
-    {
-        debug("[MESSAGE] Message note not recognized or doesn't exist. Exiting...");
+		// exit safely
+		exit(EXIT_FAILURE);
+	}
 
-        exit(EXIT_FAILURE);
-    }
+	// copy data inside of message structure
+	strcpy(message->note, note);
 
-    strcpy(message->note, note);
-
-    return message;
+	// return message pointer
+	return message;
 }
 
-// send message (Make sure socket is defined)
-ssize_t send_message(int socket, Message* message_ptr)
+// function for sending message
+ssize_t sendMessage(int socket, Message* message)
 {
-
-    // MAKE SURE TO ADD BYTE ORDER
-
+	// MAKE SURE TO ADD BYTE ORDER
     return write(socket, message_ptr->note, sizeof(message_ptr->note));
 }
 
-// receive message
-ssize_t receive_message(int socket, Message* message_ptr)
+// function for receiving message
+ssize_t receiveMessage(int socket, Message* message)
 {
-    char buffer[64];
+	// variable for buffer
+	char buffer[64];
 
+	// store bytes read 
     ssize_t bytes_read = read(socket, buffer, sizeof(buffer));
 
+    // if read bytes is less then 0
     if(bytes_read <= 0)
     {
-        return bytes_read;
+        debug("[MESSAGE] Message unable to be received. Exiting...");
     }
 
-    strcpy(messge_ptr->note, buffer);
+    // exit safely
+	exit(EXIT_FAILURE);
+
+	// copy 
+    strcpy(message->, buffer);
 
     return bytes_read;
 }
