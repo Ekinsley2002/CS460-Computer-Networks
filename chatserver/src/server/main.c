@@ -7,7 +7,7 @@ pthread_mutex_t mutex_client_socket = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mutex_chat_node_list = PTHREAD_MUTEX_INITIALIZER;
 
 // declare chat node linked list
-ChatNode* ChatNodes;
+ChatNodes* chatNodes;
 
 // main function
 int main(int argc, char* argv[])
