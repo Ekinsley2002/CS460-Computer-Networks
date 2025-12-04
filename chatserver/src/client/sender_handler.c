@@ -144,6 +144,7 @@ void *send_to_server(void* arg) {
     exit(EXIT_SUCCESS);
     }
 
+    // Send a NOTE
     else
     {
         if(!has_joined)
@@ -171,9 +172,4 @@ void *send_to_server(void* arg) {
 
         close(socket_to_server);
     }
-}
-
-void main_server_loop_function()
-{
-    // hanldes main loop
 }
