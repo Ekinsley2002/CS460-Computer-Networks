@@ -74,13 +74,13 @@ void *connection_to_server(void* arg)
 
     pthread_mutex_unlock(&mutex_reciever_socket);
 
-    recieve_message(client_socket, &message);
+    receiveMessage(client_socket, &message);
 
     switch(message.type)
     {
         case NOTE:
         {
-            printf("%s%s:%s %s", NOTE_COLOR, message.chat_node.name, RESET_COLOR, message.note);
+            printf("%s%s:%s %s", NOTE_COLOR, message.chatNode.name, RESET_COLOR, message.note);
 
             if( close(client_socket) == -1 )
             {
@@ -94,44 +94,44 @@ void *connection_to_server(void* arg)
         }
         case SHUTDOWN:
         {
-            printf('Shutting down...\n');
+            printf("Shutting down...\n");
 
             if (close(client_socket) == -1)
             {
-                perror('[connection_to_server] error closing socket');
+                perror("[connection_to_server] error closing socket");
             }
             else
             {
-                debug('[connection_to_server] socket closed: %d', client_socket);
+                debug("[connection_to_server] socket closed: %d", client_socket);
             }
 
             exit(EXIT_SUCCESS);
         }
-        case JOINING:
+        case JOIN:
         {
-            printf("%s%s joined the chat%s\n", JOINED_COLOR, message.chat_node.name, RESET_COLOR);
+            printf("%s%s joined the chat%s\n", JOINED_COLOR, message.chatNode.name, RESET_COLOR);
 
             if (close(client_socket) == -1)
             {
-                perror('[connection_to_server] error closing socket');
+                perror("[connection_to_server] error closing socket");
             }
             else
             {
-                debug('[connection_to_server] socket closed: %d', client_socket);
+                debug("[connection_to_server] socket closed: %d", client_socket);
             }
             break;
         }
-        case LEFT:
+        case LEAVE:
         {
-            printf("%s%s left the chat%s\n", LEFT_COLOR, message.chat_node.name, RESET_COLOR);
+            printf("%s%s left the chat%s\n", LEFT_COLOR, message.chatNode.name, RESET_COLOR);
 
             if (close(client_socket) == -1)
             {
-                perror('[connection_to_server] error closing socket');
+                perror("[connection_to_server] error closing socket");
             }
             else
             {
-                debug('[connection_to_server] socket closed: %d', client_socket);
+                debug("[connection_to_server] socket closed: %d", client_socket);
             }
             break;
         }

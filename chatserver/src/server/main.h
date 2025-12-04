@@ -14,6 +14,8 @@
 #include <pthread.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
+#include "properties.h"
+#include "client_handler.h"
 
 // global constants
 

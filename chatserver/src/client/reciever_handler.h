@@ -11,5 +11,13 @@
 #include <pthread.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
+#include "message.h"
+#include "properties.h"
+#include "main.h"
+#include "dbg.h"
+#include "text_color.h"
+
+void *connection_to_server(void* arg);
+void *receive_from_server(void* arg);
 
 #endif /* RECEIVER_HANDLER_H */

@@ -4,7 +4,7 @@
 // other header files
 #include "properties.h"
 #include "sender_handler.h"
-#include "receiver_handler.h"
+#include "reciever_handler.h"
 #include "message.h"
 
 // standard libraries
@@ -19,6 +19,9 @@
 #define SERVER_IP "127.0.0.1"
 #define SERVER_PORT 9000
 #define CLIENT_NAME 32
+
+// number of client connections allowed
+#define NUM_CONNECTIONS 5
 
 // client struct
 typedef struct

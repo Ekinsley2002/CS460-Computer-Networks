@@ -1,6 +1,4 @@
 // debug
-#define DBG
-#include "dbg.h"
 #include "client_handler.h"
 
 // function to talk with the client
@@ -245,6 +243,7 @@ void leave(Message* message)
 
 	// unlock the mutex for node list
 	pthread_mutex_unlock(&mutex_chat_node_list);
+	}
 }
 
 // note function
