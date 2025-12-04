@@ -7,6 +7,9 @@
 // sending message library
 #include <unistd.h>
 
+// debug library
+#include <dbg.h>
+
 // global constant commands
 #define JOIN 1
 #define LEAVE 2

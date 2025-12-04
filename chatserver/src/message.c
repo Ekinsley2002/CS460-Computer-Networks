@@ -1,3 +1,5 @@
+#include "message.h"
+
 // create new message
 Message* message_new(int type, ChatNode* chat_node_ptr, char* note)
 {
@@ -54,7 +56,7 @@ ssize_t receive_message(int socket, Message* message_ptr)
         return bytes_read;
     }
 
-    strcpy(messge_ptr->, buffer);
+    strcpy(messge_ptr->note, buffer);
 
     return bytes_read;
 }
