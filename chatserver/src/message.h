@@ -4,8 +4,12 @@
 // chat node library
 #include "chat_node.h"
 
-// sending message library
+// standard libraries
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
+#include <sys/socket.h>
 
 // global constant commands
 #define JOIN 1
@@ -30,12 +34,12 @@ typedef struct Message
 // message functions
 
 // create new message
-Message* message_new(int type, ChatNode* chat_node_ptr, char* note);
+Message* messageNew(int type, ChatNode* chat_node_ptr, char* note);
 
 // send message
-ssize_t send_message(int socket, Message* message_ptr);
+ssize_t sendMessage(int socket, Message* message_ptr);
 
 // receive message
-ssize_t receive_message(int socket, Message* message_ptr);
+ssize_t receiveMessage(int socket, Message* message_ptr);
 
 #endif /* message.h */
