@@ -39,7 +39,7 @@ Message* messageNew(int type, ChatNode* chat_node_ptr, char* note)
 	}
 
 	// set chat node
-	message->chatNode = chat_node_ptr;
+	message->chatNode = *chat_node_ptr;
 	
 	// if note doesn't exist
 	if (note == NULL)
@@ -62,7 +62,7 @@ Message* messageNew(int type, ChatNode* chat_node_ptr, char* note)
 ssize_t sendMessage(int socket, Message* message)
 {
 	// MAKE SURE TO ADD BYTE ORDER
-    return write(socket, message_ptr->note, sizeof(message_ptr->note));
+    return write(socket, message->note, sizeof(message->note));
 }
 
 // function for receiving message
