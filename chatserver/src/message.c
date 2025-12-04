@@ -62,29 +62,12 @@ Message* messageNew(int type, ChatNode* chat_node_ptr, char* note)
 ssize_t sendMessage(int socket, Message* message)
 {
 	// MAKE SURE TO ADD BYTE ORDER
-    return write(socket, message->note, sizeof(message->note));
+    return write(socket, message, sizeof(Message));
 }
 
 // function for receiving message
 ssize_t receiveMessage(int socket, Message* message)
 {
-	// variable for buffer
-	char buffer[64];
-
-	// store bytes read 
-    ssize_t bytes_read = read(socket, buffer, sizeof(buffer));
-
-    // if read bytes is less then 0
-    if(bytes_read <= 0)
-    {
-        debug("[MESSAGE] Message unable to be received. Exiting...");
-    }
-
-    // exit safely
-	exit(EXIT_FAILURE);
-
-	// copy 
-    strcpy(message->, buffer);
-
-    return bytes_read;
+	// return the bytes read from the message
+    return read(socket, message, sizeof(Message));
 }
