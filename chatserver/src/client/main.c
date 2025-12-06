@@ -6,7 +6,7 @@
 int main(int argc, char* argv[])
 {
 	// create storage for client properties structure
-	ClientProperties* properties;
+	Properties* properties;
 
 	// get properties file for client
 	char* propertiesFile = "default.properties";
