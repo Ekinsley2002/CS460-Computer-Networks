@@ -237,13 +237,12 @@ void leave(Message* message)
 			// traverse to next chat node in list
 			current = current->next;
 		}
-
+	}
 	// debug message notifying that the chat node left
 	debug("%s left the chat.", message->chatNode.name);
 
 	// unlock the mutex for node list
 	pthread_mutex_unlock(&mutex_chat_node_list);
-	}
 }
 
 // note function
