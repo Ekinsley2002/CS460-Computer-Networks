@@ -23,7 +23,7 @@
 // number of client connections allowed
 #define NUM_CONNECTIONS 5
 
-// client struct
+/* client struct
 typedef struct
 {
 	// store server ip
@@ -34,6 +34,6 @@ typedef struct
 
 	// store client name
 	char name[16];
-} ClientProperties;
+} ClientProperties; */
 
 #endif /* main.h */

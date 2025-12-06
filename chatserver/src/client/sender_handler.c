@@ -11,7 +11,11 @@ void *send_to_server(void* arg) {
     bool has_joined = false;
 
     Properties* properties = (Properties*) arg;
-    char* server_port = property_get_property(properties, "MY_IP");
+
+    char* server_port = property_get_property(properties, "SERVER_PORT");
+    char* server_address = property_get_property(properties, "SERVER_ADDR");
+
+    char* my_ip = property_get_property(properties, "MY_IP");
     char* my_port = propert_get_property(properties, "MY_PORT");
     char* my_name = property_get_property(properties, "MY_NAME");
 
@@ -24,17 +28,17 @@ void *send_to_server(void* arg) {
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_family = AF_INET;
 
-    if ((error = getaddrinfo(server_address, server_port, &hints, $server_info)) != 0)
+    if ((error = getaddrinfo(server_address, server_port, &hints, &server_info)) != 0)
     {
-        debug("error %d : %s\n", error, gai_strerror(error));
+        debug("Error %d : %s\n", error, gai_strerror(error));
     }
 
     printf("Client up and running!");
 
     while(true)
     {
-
-        memset(input_line, '/0', sizeof(input_line));
+        // read the input line
+        memset(input_line, '\0', sizeof(input_line));
         fgets(input_line, sizeof(input_line), stdin);
 
         if(starts_with(input_line, "JOIN"))
@@ -42,8 +46,8 @@ void *send_to_server(void* arg) {
 
             if(has_joined)
             {
-            printf("You have already joined chat\n");
-            continue;
+                printf("You have already joined chat\n");
+                continue;
             }
 
             Message* message_ptr = message_new(JOIN, chat_node_myself, NULL);
@@ -52,13 +56,13 @@ void *send_to_server(void* arg) {
 
             if (connect(socket_to_server, server_info->ai_addr, server_info->ai_addr))
             {
-                perror("[talk_to_server].connect (JOIN error connecting to server)");
+                perror("[SENDER] Connection unable to be performed. Exiting...");
                 exit(EXIT_FAILURE);
             }
 
             if (send_message(socket_to_server, message_ptr) == -1)
             {
-                printf("[talk_to_server].send_message (JOIN) error sending message");
+                printf("[SENDER] There was an error trying to send message.");
             }
 
             has_joined = true;
@@ -82,13 +86,13 @@ void *send_to_server(void* arg) {
 
             if (connect(socket_to_server, server_info->ai_addr, server_info->ai_addr))
             {
-                perror("[talk_to_server].connect (JOIN) error connecting to server");
+                perror("[SENDER] Connection unable to be performed. Exiting...");
                 exit(EXIT_FAILURE);
             }
 
             if(send_message(socket_to_server, message_ptr) == -1)
             {
-                printf("[talk_to_server].send_message (JOIN) error sending message");
+                printf("[SENDER] There was an error trying to send message.");
             }
 
             has_joined = false;
@@ -123,25 +127,25 @@ void *send_to_server(void* arg) {
             type = LEAVE;
         }
 
-    Message* message_ptr - message_new(type, chat_node_myself, NULL);
+        Message* message_ptr - message_new(type, chat_node_myself, NULL);
 
-    socket_to_server = socket(server_info->ai_family, server_info->ai_socket);
+        socket_to_server = socket(server_info->ai_family, server_info->ai_socket);
 
-    if (connect(socket_to_server, server_info->ai_addr, server_info->ai_addr))
-    {
-        perror("[talk_to_server].connect (JOIN) error connecting to server");
-        exit(EXIT_FAILURE);
-    }
+        if (connect(socket_to_server, server_info->ai_addr, server_info->ai_addr))
+        {
+            perror("[SENDER] Connection unable to be performed. Exiting...");
+            exit(EXIT_FAILURE);
+        }
 
-    if(send_message(socket_to_server, message_ptr) == -1)
-    {
-        printf("[talk_to_server].send_message (JON) error sneidng message");
-    }
+        if(send_message(socket_to_server, message_ptr) == -1)
+        {
+            printf("[SENDER] There was an error trying to send message.");
+        }
 
-    free(message_ptr);
+        free(message_ptr);
 
-    debug("Shutting down");
-    exit(EXIT_SUCCESS);
+        debug("Shutting down");
+        exit(EXIT_SUCCESS);
     }
 
     // Send a NOTE
@@ -157,15 +161,15 @@ void *send_to_server(void* arg) {
 
         socket_to_server = socket(server_info->ai_family, server_info->ai_addr, server_info->ai_addr);
 
-        if (connecting_socket_to_server, server_info->ai_addr, server_info->ai_addr, server_info->ai_addr)
+        if (connect(socket_to_server, server_info->ai_addr, server_info->ai_addr))
         {
-            perror("[talk_to_server].connect (JOIN) error connecting to server");
+            perror("[SENDER] Connection unable to be performed. Exiting...");
             exit(EXIT_FAILURE);
         }
 
         if(send_message(socket_to_server, message_ptr) == -1)
         {
-            printf("[talk_to_server].send_message (JOIN) error sending message");
+            printf("[SENDER] There was an error trying to send message.");
         }
 
         free(message_ptr);
