@@ -1,5 +1,5 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef CLIENT_MAIN_H
+#define CLIENT_MAIN_H
 
 // other header files
 #include "properties.h"
@@ -36,4 +36,4 @@ typedef struct
 	char name[16];
 } ClientProperties; */
 
-#endif /* main.h */
+#endif /* CLIENT_MAIN_H */

@@ -1,5 +1,5 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef SERVER_MAIN_H
+#define SERVER_MAIN_H  
 
 // chat node file
 #include "chat_node.h"
@@ -35,4 +35,4 @@ extern pthread_mutex_t mutex_chat_node_list;
 // declare chat node linked list
 extern ChatNodes* chatNodes;
 
-#endif /* main.h */
+#endif /* SERVER_MAIN_H */

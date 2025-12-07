@@ -13,7 +13,7 @@
 #include "chat_node.h"
 #include "message.h"
 #include "dbg.h"
-#include "main.h"
+#include "server_main.h"
 #include <netdb.h>
 
 // function to talk to client
@@ -26,6 +26,6 @@ void note(Message* message);
 void shutdownAll(Message* message);
 
 // ******THIS MAY BE WRONG PLEASE CHECK*****
-const char* ip_ntop(unsigned int ip);
+//const char* ip_ntop(unsigned int ip);
 
 #endif /* CLIENT_HANDLER.H */

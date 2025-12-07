@@ -16,8 +16,10 @@
 #include "message.h"
 #include "chat_node.h"
 #include "dbg.h"
+#include <arpa/inet.h>
 
 // function prototype
 void *send_to_server(void* arg);
+bool starts_with(const char* str, const char* prefix);
 
 #endif /* SENDER_HANDLER_H */

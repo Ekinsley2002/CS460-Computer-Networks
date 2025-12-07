@@ -13,7 +13,7 @@
 #include <sys/socket.h>
 #include "message.h"
 #include "properties.h"
-#include "main.h"
+#include "client_main.h"
 #include "dbg.h"
 #include "text_color.h"
 

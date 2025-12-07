@@ -41,6 +41,7 @@ Message* messageNew(int type, ChatNode* chat_node_ptr, char* note)
 	// set chat node
 	message->chatNode = *chat_node_ptr;
 	
+	/*
 	// if note doesn't exist
 	if (note == NULL)
 	{
@@ -50,6 +51,7 @@ Message* messageNew(int type, ChatNode* chat_node_ptr, char* note)
 		// exit safely
 		exit(EXIT_FAILURE);
 	}
+	*/
 
 	// copy data inside of message structure
 	strcpy(message->note, note);

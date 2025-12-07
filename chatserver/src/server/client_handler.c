@@ -97,6 +97,13 @@ void join(Message* message)
 	// varaible for error integer
 	int errVar;
 
+	// NEW USED FPR ntop
+	char ip_string[INET_ADDRSTRLEN];
+	struct in_addr addr;
+ 	// Convert to network byte order for inet_ntop
+	addr.s_addr = htonl(message->chatNode.ip);
+	// End of new
+
 	// lock the mutex for node list
 	pthread_mutex_lock(&mutex_chat_node_list);
 
@@ -125,7 +132,8 @@ void join(Message* message)
 		sprintf(port, "%u", current->chatNode.port);
 
 		// get address info from the node and check for errors
-		if ((errVar = getaddrinfo(ip_ntop(current->chatNode.ip), port, &hints, &server_info)) != 0)
+			// USED TO BE:ip_ntop now we use inet_ntop
+		if ((errVar = getaddrinfo(inet_ntop(AF_INET, &addr, ip_string, INET_ADDRSTRLEN), port, &hints, &server_info)) != 0)
 		{
 			// if error ecountered, throw debug statement
 			debug("[CLIENT_HANDLER] Encountered error %s", gai_strerror(errVar));
@@ -177,6 +185,13 @@ void leave(Message* message)
 	// lock the mutex for node list
 	pthread_mutex_lock(&mutex_chat_node_list);
 
+	// NEW USED FPR ntop
+	char ip_string[INET_ADDRSTRLEN];
+	struct in_addr addr;
+	// Convert to network byte order for inet_ntop
+	addr.s_addr = htonl(message->chatNode.ip);
+	// End of new
+
 	// if the node to be found doesn't exist
 	if (removeNode(chatNodes, &message->chatNode) == -1)
 	{
@@ -212,7 +227,7 @@ void leave(Message* message)
 			sprintf(port, "%u", current->chatNode.port);
 
 			// get address info from the node and check for errors
-			if ((errVar = getaddrinfo(ip_ntop(current->chatNode.ip), port, &hints, &server_info)) != 0)
+			if ((errVar = getaddrinfo(inet_ntop(AF_INET, &addr, ip_string, INET_ADDRSTRLEN), port, &hints, &server_info)) != 0)
 			{
 				// if error ecountered, throw debug statement
 				debug("[CLIENT_HANDLER] Encountered error %s", gai_strerror(errVar));
@@ -267,6 +282,13 @@ void note(Message* message)
 	// get ready for traversal of the list
 	ChatListElement* current = chatNodes->head;
 
+	// NEW USED FPR ntop
+	char ip_string[INET_ADDRSTRLEN];
+	struct in_addr addr;
+	// Convert to network byte order for inet_ntop
+	addr.s_addr = htonl(message->chatNode.ip);
+	// End of new
+
 	// traverse the list
 	while (current != NULL)
 	{
@@ -296,7 +318,7 @@ void note(Message* message)
 		sprintf(port, "%u", current->chatNode.port);
 
 		// get address info from the node and check for errors
-		if ((errVar = getaddrinfo(ip_ntop(current->chatNode.ip), port, &hints, &server_info)) != 0)
+		if ((errVar = getaddrinfo(inet_ntop(AF_INET, &addr, ip_string, INET_ADDRSTRLEN), port, &hints, &server_info)) != 0)
 		{
 			// if error ecountered, throw debug statement
 			debug("[CLIENT_HANDLER] Encountered error %s", gai_strerror(errVar));
@@ -351,6 +373,13 @@ void shutdownAll(Message* message)
 	// get ready for traversal of the list
 	ChatListElement* current = chatNodes->head;
 
+	// NEW USED FPR ntop
+	char ip_string[INET_ADDRSTRLEN];
+	struct in_addr addr;
+	// Convert to network byte order for inet_ntop
+	addr.s_addr = htonl(message->chatNode.ip);
+	// End of new
+
 	// traverse the list
 	while (current != NULL)
 	{
@@ -370,7 +399,7 @@ void shutdownAll(Message* message)
 		sprintf(port, "%u", current->chatNode.port);
 
 		// get address info from the node and check for errors
-		if ((errVar = getaddrinfo(ip_ntop(current->chatNode.ip), port, &hints, &server_info)) != 0)
+		if ((errVar = getaddrinfo(inet_ntop(AF_INET, &addr, ip_string, INET_ADDRSTRLEN), port, &hints, &server_info)) != 0)
 		{
 			// if error ecountered, throw debug statement
 			debug("[CLIENT_HANDLER] Encountered error %s", gai_strerror(errVar));

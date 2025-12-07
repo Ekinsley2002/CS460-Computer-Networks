@@ -1,6 +1,6 @@
 #define DBG
 #include "dbg.h"
-#include "main.h"
+#include "client_main.h"
 
 // main function
 int main(int argc, char* argv[])
