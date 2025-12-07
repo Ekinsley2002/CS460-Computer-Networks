@@ -84,7 +84,7 @@ void *connection_to_server(void* arg)
 
             if(close(client_socket) == -1 )
             {
-                perror("[RECEIVER] Eorror encounterd when closing socket.");
+                perror("[RECEIVER] Error encounterd when closing socket.");
             }
             else
             {

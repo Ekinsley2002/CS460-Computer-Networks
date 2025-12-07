@@ -38,8 +38,9 @@ void *send_to_server(void* arg) {
         debug("Error %d : %s\n", error, gai_strerror(error));
     }
 
-    printf("Client up and running!");
+    printf("Client up and running!\n");
 
+    // while true
     while(true)
     {
         // read the input line
@@ -107,11 +108,11 @@ void *send_to_server(void* arg) {
             close(socket_to_server);
         }
 
-        else if (starts_with(input_line, "SHUTDOWN ALL") || starts_with(input_line, "SHUTDOWN"))
+        else if (starts_with(input_line, "SHUTDOWN_ALL") || starts_with(input_line, "SHUTDOWN"))
         {
             int type;
 
-            if(starts_with(input_line, "SHUTDOWN ALL"))
+            if(starts_with(input_line, "SHUTDOWN_ALL"))
             {
                 if(!has_joined)
                 {

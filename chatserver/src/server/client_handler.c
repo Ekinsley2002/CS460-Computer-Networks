@@ -67,7 +67,7 @@ void* talk_to_client(void* arg)
 		case SHUTDOWN_ALL:
 			{
 				// create temporary message for shutdown 
-				Message* messageTerminate = messageNew(SHUTDOWN, NULL, NULL);
+				Message* messageTerminate = messageNew(SHUTDOWN, &clientMessage.chatNode, NULL);
 
 				// call function for shutting down all clients
 				shutdownAll(messageTerminate);

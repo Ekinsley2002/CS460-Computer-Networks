@@ -85,7 +85,7 @@ int main(int argc, char* argv[])
 
 		// connect to client
 		clientSock = accept(serverSock, NULL, NULL);
-		fprintf(stderr, "\nClient connected. Hooray!");
+		fprintf(stderr, "\nConnection received. Hooray!");
 
 		// create thread for client request
 		pthread_t thread;
