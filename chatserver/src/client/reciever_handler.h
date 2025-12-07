@@ -17,6 +17,7 @@
 #include "dbg.h"
 #include "text_color.h"
 
+// function prototypes
 void *connection_to_server(void* arg);
 void *receive_from_server(void* arg);
 

@@ -23,17 +23,4 @@
 // number of client connections allowed
 #define NUM_CONNECTIONS 5
 
-/* client struct
-typedef struct
-{
-	// store server ip
-	unsigned int ip;
-
-	// store port
-	uint16_t port;
-
-	// store client name
-	char name[16];
-} ClientProperties; */
-
 #endif /* CLIENT_MAIN_H */
