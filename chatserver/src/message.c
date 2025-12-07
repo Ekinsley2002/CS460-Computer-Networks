@@ -25,6 +25,16 @@ Message* messageNew(int type, ChatNode* chat_node_ptr, char* note)
 		exit(EXIT_FAILURE);
 	}
 
+	// handle if chat node hasn't been created
+	if (chat_node_ptr == NULL)
+	{
+		// throw a debug message
+		debug("[MESSAGE] Chat node doesn't exist. Exiting...");
+		
+		// safely exit	
+		exit(EXIT_FAILURE);
+	}
+
 	// set message type
 	message->type = type;
 
@@ -53,8 +63,18 @@ Message* messageNew(int type, ChatNode* chat_node_ptr, char* note)
 	}
 	*/
 
-	// copy data inside of message structure
-	strcpy(message->note, note);
+	// if there is a note
+	if (note != NULL)
+	{
+		// copy data inside of message structure
+		strcpy(message->note, note);
+	}
+
+	// or if not
+	else
+	{
+		message->note[0] = '\0';
+	}
 
 	// return message pointer
 	return message;

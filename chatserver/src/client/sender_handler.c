@@ -7,6 +7,8 @@ void *send_to_server(void* arg) {
     struct addrinfo hints, *server_info;
     int error;
 
+    struct in_addr addr;
+
     char input_line[80];
     bool has_joined = false;
 
@@ -19,8 +21,10 @@ void *send_to_server(void* arg) {
     char* my_port = property_get_property(properties, "MY_PORT");
     char* my_name = property_get_property(properties, "MY_NAME");
 
+    inet_pton(AF_INET, my_ip, &addr);
+
     // Originally ip_pton but we used inet_pton instead
-    ChatNode* chat_node_myself = newNode(htonl(inet_addr(my_ip)), htons(atoi(my_port)), my_name);
+    ChatNode* chat_node_myself = newNode(addr.s_addr, htons(atoi(my_port)), my_name);
 
     // allocates memory and sets to zero for address info
     memset(&hints, 0, sizeof(hints));

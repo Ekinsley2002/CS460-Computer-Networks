@@ -107,6 +107,9 @@ void join(Message* message)
 	// lock the mutex for node list
 	pthread_mutex_lock(&mutex_chat_node_list);
 
+	// add the node to global chat nodes
+	addNode(chatNodes, &message->chatNode);
+
 	// let clients know that there is a new client joining
 	message->type = JOIN;
 
@@ -202,6 +205,9 @@ void leave(Message* message)
 	// or if found
 	else
 	{
+		// notify that the node is being disconnected 
+		debug("[CLIENT_HANDLER] %s disconnected.", message->chatNode.name);
+		
 		// notify other clients that a client has left
 		message->type = LEAVE;
 
@@ -211,6 +217,16 @@ void leave(Message* message)
 		// traverse the list
 		while(current != NULL)
 		{
+			// if the user who has left is the current
+			if (compareNodes(&current->chatNode, &message->chatNode))
+			{
+				// skip that user
+				current = current->next;
+
+				// continue
+				continue;
+			}
+
 			// tell current client that a client is leaving
 			debug("[CLIENT_HANDLER] A client is leaving. Say bye!");
 
@@ -222,6 +238,10 @@ void leave(Message* message)
 
 			// return IPv4 addresses
 			hints.ai_family = AF_INET;
+
+			// get target node
+			struct in_addr addr;
+			addr.s_addr = htonl(current->chatNode.ip);
 
 			// print out the name of the node
 			sprintf(port, "%u", current->chatNode.port);
@@ -242,12 +262,17 @@ void leave(Message* message)
 				// throw an error
 				perror("[CLIENT_HANDLER] Error connecting to the server.");
 			}
-
-			// send the message from server to client
-			sendMessage(socketChatNode, message);
+			else
+			{
+				// send the message from server to client
+				sendMessage(socketChatNode, message);
+			}
 
 			// close the connection
 			close(socketChatNode);
+
+			// free the server info
+			freeaddrinfo(server_info);
 
 			// traverse to next chat node in list
 			current = current->next;

@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 	// get properties file for client
 	char* propertiesFile = "default.properties";
 
-	// if two arguments count is two
+	// if two arguments are provided
 	if (argc == 2)
 	{
 		// file provided on command prompt, use it
